@@ -1,0 +1,61 @@
+Bước 1: Tạo Google Sheets và lấy spreadsheetId
+Tạo Google Sheets:
+
+Truy cập Google Sheets.
+Tạo một bảng tính mới và nhập dữ liệu của bạn (ví dụ: tên, số điện thoại, email, v.v.).
+Lấy spreadsheetId:
+
+Mở bảng tính mà bạn đã tạo.
+Xem link URL trong trình duyệt:
+bash
+Sao chép mã
+https://docs.google.com/spreadsheets/d/1E4SJKpcjhDBtmnpYYHWAy_YjjtXzfL36T1oxfcc889o/edit?gid=0
+spreadsheetId là phần nằm giữa /d/ và /edit, ở đây là:
+Sao chép mã
+1E4SJKpcjhDBtmnpYYHWAy_YjjtXzfL36T1oxfcc889o
+Bước 2: Thiết lập Google Cloud Platform
+Đăng nhập vào Google Cloud Platform:
+
+Truy cập Google Cloud Console.
+Đăng nhập vào tài khoản Google của bạn.
+Tạo một dự án mới:
+
+Nhấn vào biểu tượng Select a project ở góc trên bên trái.
+Nhấn New Project.
+Nhập tên dự án và nhấn Create.
+Bật Google Sheets API:
+
+Trong dự án, vào API & Services > Library.
+Tìm kiếm "Google Sheets API" và nhấn vào.
+Nhấn Enable để bật API.
+Bước 3: Tạo Credentials cho Google Sheets API
+Tạo tài khoản dịch vụ:
+
+Vào API & Services > Credentials.
+Nhấn Create Credentials và chọn Service Account.
+Nhập tên và mô tả cho tài khoản dịch vụ, sau đó nhấn Create.
+Cấp quyền cho tài khoản dịch vụ:
+
+Ở phần Role, chọn Editor hoặc Viewer, sau đó nhấn Continue.
+Nhấn Done để hoàn tất.
+Tạo khóa JSON:
+
+Nhấp vào tài khoản dịch vụ mà bạn vừa tạo.
+Chọn Add Key > Create New Key và chọn JSON.
+Tệp JSON sẽ được tải xuống (giữ nó an toàn, vì nó chứa thông tin nhạy cảm).
+Bước 4: Cung cấp quyền truy cập cho tài khoản dịch vụ
+Mở Google Sheets mà bạn đã tạo.
+Nhấn vào nút Share ở góc trên bên phải.
+Nhập địa chỉ email của tài khoản dịch vụ (có dạng your-service-account@your-project.iam.gserviceaccount.com).
+Cấp quyền Editor cho tài khoản dịch vụ này để nó có thể đọc và ghi dữ liệu.
+Bước 5: Tạo dự án Spring Boot
+Tạo dự án Spring Boot:
+
+Truy cập Spring Initializr.
+Chọn các thông số sau:
+Project: Maven Project
+Language: Java
+Spring Boot: Chọn phiên bản mới nhất
+Dependencies: Chọn Spring Web, Spring Data JPA, MySQL Driver.
+Tải dự án xuống và giải nén.
+

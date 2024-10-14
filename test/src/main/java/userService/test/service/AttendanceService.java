@@ -8,15 +8,14 @@ import userService.test.entity.AttendanceSalary;
 import userService.test.entity.User;
 import userService.test.respository.AttendanceRepository;
 import userService.test.respository.UserRepository;
-import userService.test.respository.attendanceSalaryRepository;
+import userService.test.respository.AttendanceSalaryRepository;
 
 import java.math.BigDecimal;
-import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +27,7 @@ public class AttendanceService {
     UserRepository userRepository;
 
     @Autowired
-    attendanceSalaryRepository attendanceSalaryRepository;
+    AttendanceSalaryRepository attendanceSalaryRepository;
 
      public List<Attendance> getbyuserID(Long userID){
         return attendanceRepository.findByUserId(userID);
@@ -36,6 +35,8 @@ public class AttendanceService {
     public List<Attendance> getall(){
         return attendanceRepository.findAll();
     }
+
+
     public User finduser(Long id){
         User user=userRepository.findById(id).orElseThrow(()->new RuntimeException("user not found"));
         return user;
@@ -110,6 +111,18 @@ public class AttendanceService {
         attendanceSalary.setSalary(salary.setScale(2, BigDecimal.ROUND_HALF_UP)); // Định dạng với 2 chữ số thập phân
 
         return attendanceSalaryRepository.save(attendanceSalary);
+    }
+    public List<AttendanceSalary> salaryList(int month,int year){
+         return attendanceSalaryRepository.findListAttendanceSalary(month, year);
+     }
+    public BigDecimal sumsalary(int month,int year){
+        BigDecimal totalHours = BigDecimal.ZERO;
+         for (AttendanceSalary attendanceSalary :attendanceSalaryRepository.findListAttendanceSalary(month, year) ){
+             totalHours = totalHours.add(attendanceSalary.getSalary());
+
+         }
+         return totalHours;
+
     }
 
 

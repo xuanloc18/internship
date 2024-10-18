@@ -48,5 +48,11 @@ public class ShiftController {
                 .result(shiftService.list())
                 .build();
     }
+    @GetMapping("/shift-of-user/{id}")
+    public APIResponse<List<UserShift>> getUserShiftOfUser(@PathVariable Long id){
+        return APIResponse.<List<UserShift>>builder()
+                .result(shiftService.listShiftOfUser(id))
+                .build();
+    }
 
 }

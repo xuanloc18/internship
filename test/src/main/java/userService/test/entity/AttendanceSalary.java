@@ -21,7 +21,7 @@ public class AttendanceSalary {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long AttendanceSalaryID;
-    Long userID;
+    String userID;
     String userName;
     int month;
     int year;

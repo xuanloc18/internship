@@ -7,11 +7,10 @@ import userService.test.entity.Attendance;
 import userService.test.entity.AttendanceSalary;
 import userService.test.entity.User;
 import userService.test.respository.AttendanceRepository;
-import userService.test.respository.UserRepository;
 import userService.test.respository.AttendanceSalaryRepository;
+import userService.test.respository.UserRespository;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -24,12 +23,12 @@ public class AttendanceService {
     @Autowired
     AttendanceRepository attendanceRepository;
     @Autowired
-    UserRepository userRepository;
+    UserRespository userRepository;
 
     @Autowired
     AttendanceSalaryRepository attendanceSalaryRepository;
 
-     public List<Attendance> getbyuserID(Long userID){
+     public List<Attendance> getbyuserID(String userID){
         return attendanceRepository.findByUserId(userID);
      }
     public List<Attendance> getall(){
@@ -37,12 +36,12 @@ public class AttendanceService {
     }
 
 
-    public User finduser(Long id){
+    public User finduser(String id){
         User user=userRepository.findById(id).orElseThrow(()->new RuntimeException("user not found"));
         return user;
     }
 
-    public Attendance createattendance(Long id) {
+    public Attendance createattendance(String id) {
         // Kiểm tra xem đã có bản ghi Attendance nào cho ngày hôm nay và user chưa
         attendanceRepository.findByWorkDateAndUserId(LocalDate.now(), id)
                 .ifPresent(a -> { // Nếu đã tồn tại, ném ngoại lệ
@@ -60,10 +59,7 @@ public class AttendanceService {
         attendanceRepository.save(attendance);
         return attendance;
     }
-
-
-
-    public Attendance update(Long id) {
+    public Attendance update(String id) {
         Attendance attendance = attendanceRepository.findByWorkDateAndUserId(LocalDate.now(), id)
                 .orElseThrow(() -> new RuntimeException("Attendance not found"));
 
@@ -80,7 +76,7 @@ public class AttendanceService {
         attendanceRepository.save(attendance); // Ghi cập nhật đối tượng Attendance
         return attendance;
     }
-    public AttendanceSalary creAttendanceSalary(Long id, int month, int years, Long valueSalary) {
+    public AttendanceSalary creAttendanceSalary(String id, int month, int years, Long valueSalary) {
         AttendanceSalary attendanceSalary = new AttendanceSalary();
         // Tìm kiếm danh sách AttendanceSalary
         Optional<AttendanceSalary> attendanceSalaryList = attendanceSalaryRepository.findAttendanceSalary(id, years, month);
@@ -124,13 +120,4 @@ public class AttendanceService {
          return totalHours;
 
     }
-
-
-
-
-
-
-
-
-
 }

@@ -13,9 +13,9 @@ import java.util.Optional;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance,String> {
     @Query("SELECT a FROM Attendance a WHERE a.workDate = :workDate AND a.userID = :userId")
-    Optional<Attendance> findByWorkDateAndUserId(@Param("workDate") LocalDate workDate, @Param("userId") Long userId);
+    Optional<Attendance> findByWorkDateAndUserId(@Param("workDate") LocalDate workDate, @Param("userId") String userId);
     @Query("SELECT a FROM Attendance a WHERE  a.userID = :userId")
-    List<Attendance> findByUserId( @Param("userId") Long userId);
+    List<Attendance> findByUserId( @Param("userId") String userId);
     // Đếm tổng số ngày làm việc theo tháng và năm
 //    @Query("SELECT COUNT(a) FROM Attendance a WHERE a.userID = :userId " +
 //            "AND YEAR(a.workDate) = :year AND MONTH(a.workDate) = :month AND a.checkInTime IS NOT NULL")
@@ -30,7 +30,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance,String> {
 //    // Tìm chấm công theo userId, tháng và năm
     @Query("SELECT a FROM Attendance a WHERE a.userID = :userId " +
             "AND FUNCTION('YEAR', a.workDate) = :year AND FUNCTION('MONTH', a.workDate) = :month")
-    List<Attendance> findByUserIdAndMonthAndYear(@Param("userId") Long userId,
+    List<Attendance> findByUserIdAndMonthAndYear(@Param("userId") String userId,
                                                  @Param("year") int year,
                                                  @Param("month") int month);
 }

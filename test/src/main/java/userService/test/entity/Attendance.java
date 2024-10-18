@@ -27,5 +27,5 @@ public class Attendance {
     LocalDate workDate;
     BigDecimal  bigDecimal;
     boolean status;
-    Long userID;
+    String userID;
 }

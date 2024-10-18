@@ -114,13 +114,35 @@
 			<version>1.34.0</version>
 		</dependency>
 
-		<!-- Spring Security -->
+<!--		&lt;!&ndash; Spring Security &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.security</groupId>-->
+<!--			<artifactId>spring-security-core</artifactId>-->
+<!--			<version>6.3.1</version>-->
+<!--		</dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-oauth2-jose</artifactId>-->
+<!--            <version>6.3.1</version>-->
+<!--        </dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.security</groupId>-->
+<!--			<artifactId>spring-security-config</artifactId>-->
+<!--			<version>6.3.1</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.security</groupId>-->
+<!--			<artifactId>spring-security-web</artifactId>-->
+<!--			<version>6.3.1</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>6.3.1</version>
+			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>

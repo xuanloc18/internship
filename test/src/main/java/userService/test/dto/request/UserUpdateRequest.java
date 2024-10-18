@@ -1,22 +1,21 @@
-package userService.test.dto.response;
+package userService.test.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
+public class UserUpdateRequest {
 
-    String id;
-    String userName;
+    String passWord;
     String firstName;
     String lastName;
     LocalDate dbo;
-    Set<RoleResponse> roles;
+    List<String> roles;
 }

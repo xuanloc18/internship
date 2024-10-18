@@ -1,12 +1,12 @@
 package userService.test.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,12 +17,15 @@ import lombok.experimental.FieldDefaults;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long userID;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String userID;
     String userName;
     String userPhone;
     String userMail;
-    String userAuthor;
+    LocalDate dbo;
     String passWord;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    Set<Role> roles;
 
 }

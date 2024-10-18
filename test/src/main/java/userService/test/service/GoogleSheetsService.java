@@ -2,7 +2,6 @@ package userService.test.service;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 // Import đúng JacksonFactory từ Google API Client
@@ -14,11 +13,12 @@ import com.google.auth.oauth2.GoogleCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import userService.test.entity.User;
-import userService.test.respository.UserRepository;
+import userService.test.respository.UserRespository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class GoogleSheetsService {
 
     @Autowired
-    private UserRepository userRepository; // Tự động tiêm UserRepository để truy cập dữ liệu người dùng
+    private UserRespository userRepository; // Tự động tiêm UserRepository để truy cập dữ liệu người dùng
 
     private Sheets sheetsService; // Đối tượng để làm việc với Google Sheets API
 
@@ -62,7 +62,7 @@ public class GoogleSheetsService {
         if (values != null && !values.isEmpty()) {
             // Lặp qua từng hàng dữ liệu
             for (List<Object> row : values) {
-                Long userID = Long.parseLong(row.get(0).toString()); // Lấy ID người dùng từ cột đầu tiên
+                String userID = (row.get(0).toString()); // Lấy ID người dùng từ cột đầu tiên
                 // Kiểm tra xem người dùng đã tồn tại hay chưa
                 Optional<User> existingUser = userRepository.findById(userID);
 
@@ -73,7 +73,7 @@ public class GoogleSheetsService {
                     user.setUserName(row.get(1).toString()); // Thiết lập tên người dùng
                     user.setUserPhone(row.get(2).toString()); // Thiết lập số điện thoại
                     user.setUserMail(row.get(3).toString()); // Thiết lập email
-                    user.setUserAuthor(row.get(4).toString()); // Thiết lập tác giả
+                    user.setDbo(LocalDate.parse(row.get(4).toString())); // Thiết lập tác giả
                     userRepository.save(user); // Lưu người dùng vào cơ sở dữ liệu
                 }
             }
@@ -92,7 +92,7 @@ public class GoogleSheetsService {
             row.add(user.getUserName()); // Thêm tên người dùng
             row.add(user.getUserPhone()); // Thêm số điện thoại
             row.add(user.getUserMail()); // Thêm email
-            row.add(user.getUserAuthor()); // Thêm tác giả
+            row.add(user.getDbo()); // Thêm tác giả
             values.add(row); // Thêm hàng vào danh sách
         }
 

@@ -30,7 +30,10 @@ public class ShiftService {
     UserShiftMapper userShiftMapper;
 
     public Shift createShift( ShiftCreateRequest shiftCreateRequest){
-    Shift shift=shiftMapper.toShift(shiftCreateRequest);
+        if(shiftRepository.findShiftByName(shiftCreateRequest.getShiftName()).isPresent()){
+            throw new RuntimeException("shift was created");
+        }
+        Shift shift=shiftMapper.toShift(shiftCreateRequest);
         return shiftRepository.save(shift);
     }
     public List<Shift> getAllShift(){
@@ -41,10 +44,16 @@ public class ShiftService {
         return shiftRepository.save(shiftMapper.toShiftUpdate(shift,shiftUpdateRequest));
     }
     public UserShift creUserShift(UserShiftCreateRequest shiftCreateRequest){
+        if(userShiftRepository.getUserShiftToCheck(shiftCreateRequest.getUserID(),shiftCreateRequest.getShiftID(),shiftCreateRequest.getShift_date()).isPresent()){
+            throw new RuntimeException("user had shift that day");
+        }
        return userShiftRepository.save(userShiftMapper.toUserShift(shiftCreateRequest));
     }
     public List<UserShift> list(){
         return userShiftRepository.findAll();
+    }
+    public List<UserShift> listShiftOfUser(Long userID){
+        return userShiftRepository.getUserShiftOfUser(userID);
     }
 
 

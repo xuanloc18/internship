@@ -1,14 +1,11 @@
 package userService.test.controller;
 
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import userService.test.dto.response.APIResponse;
 import userService.test.entity.Attendance;
 import userService.test.entity.AttendanceSalary;
-import userService.test.respository.UserRepository;
 import userService.test.service.AttendanceService;
-import userService.test.service.UserService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,19 +17,19 @@ public class AttendanceController {
     AttendanceService attendance;
 
     @PostMapping("/create/{id}")
-    APIResponse<Attendance> create(@PathVariable Long id){
+    APIResponse<Attendance> create(@PathVariable String id){
         return APIResponse.<Attendance>builder()
                 .result(attendance.createattendance(id))
                 .build();
     }
     @PutMapping("/update/{id}")
-    APIResponse<Attendance> update(@PathVariable Long id){
+    APIResponse<Attendance> update(@PathVariable String id){
         return APIResponse.<Attendance>builder()
                 .result(attendance.update(id))
                 .build();
     }
     @GetMapping("/get/{id}")
-    APIResponse<List<Attendance>> getByUserID(@PathVariable Long id){
+    APIResponse<List<Attendance>> getByUserID(@PathVariable String id){
         return APIResponse.<List<Attendance>>builder()
                 .result(attendance.getbyuserID(id))
                 .build();
@@ -44,7 +41,7 @@ public class AttendanceController {
                 .build();
     }
     @GetMapping("/salaryofmonth")
-        APIResponse<AttendanceSalary> salaryofmonth(@RequestParam("id") Long id,@RequestParam("month") int month,@RequestParam("years") int years,@RequestParam("valueSalary") Long valueSalary ){
+        APIResponse<AttendanceSalary> salaryofmonth(@RequestParam("id") String id,@RequestParam("month") int month,@RequestParam("years") int years,@RequestParam("valueSalary") Long valueSalary ){
             return APIResponse.<AttendanceSalary>builder()
                     .result(attendance.creAttendanceSalary(id,month,years,valueSalary))
                     .build();
@@ -61,7 +58,7 @@ public class AttendanceController {
                 .result(attendance.sumsalary(month, year))
                 .build();
     }
-    }
+}
 
 
 

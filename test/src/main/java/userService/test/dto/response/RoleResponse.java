@@ -3,7 +3,6 @@ package userService.test.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -11,12 +10,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
+public class RoleResponse {
 
-    String id;
-    String userName;
-    String firstName;
-    String lastName;
-    LocalDate dbo;
-    Set<RoleResponse> roles;
+    String name;
+    String description;
+    Set<PermissionResponse> permissions;
 }

@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -26,6 +27,8 @@ public class Attendance {
     LocalTime checkOutTime;
     LocalDate workDate;
     BigDecimal  bigDecimal;
+    Double lateTime;
+    Double overTime;
     boolean status;
     String userID;
 }

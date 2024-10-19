@@ -16,13 +16,13 @@ import java.time.LocalDate;
 public class UserCreationRequest {
 
     String userName;
-
+    String userPhone;
+    String userMail;
+    @DobConstraint(min = 18, message = "INVALID_DOB")
+    LocalDate dbo;
     @Size(min = 8, message = "PASSWORD_EXCEPION")
     String passWord;
 
-    String firstName;
-    String lastName;
 
-    @DobConstraint(min = 18, message = "INVALID_DOB")
-    LocalDate dbo;
+
 }

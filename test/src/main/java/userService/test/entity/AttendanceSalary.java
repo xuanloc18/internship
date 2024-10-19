@@ -26,6 +26,9 @@ public class AttendanceSalary {
     int month;
     int year;
     Double sumTime;
+    Double sumLateTime;
+    Double sumOverTime;
+    int sumDay;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     BigDecimal salary;
 }

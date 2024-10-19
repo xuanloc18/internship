@@ -1,7 +1,10 @@
 package userService.test.dto.response;
 
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import userService.test.entity.Role;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -13,10 +16,12 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
 
-    String id;
+    String userID;
     String userName;
-    String firstName;
-    String lastName;
+    String userPhone;
+    String userMail;
     LocalDate dbo;
     Set<RoleResponse> roles;
+
+
 }

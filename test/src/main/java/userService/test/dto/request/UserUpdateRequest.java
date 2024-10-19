@@ -1,7 +1,9 @@
 package userService.test.dto.request;
 
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import userService.test.validator.DobConstraint;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
 
-    String passWord;
-    String firstName;
-    String lastName;
+    String userPhone;
+    String userMail;
+    @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dbo;
+    @Size(min = 8, message = "PASSWORD_EXCEPION")
+    String passWord;
     List<String> roles;
 }

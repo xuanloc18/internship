@@ -1,6 +1,7 @@
 package userService.test.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import userService.test.entity.Attendance;
 
@@ -11,6 +12,7 @@ import userService.test.respository.AttendanceSalaryRepository;
 import userService.test.respository.UserRespository;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -28,7 +30,11 @@ public class AttendanceService {
     @Autowired
     AttendanceSalaryRepository attendanceSalaryRepository;
 
-     public List<Attendance> getbyuserID(String userID){
+    final LocalTime timeCheckIn=LocalTime.of(7,30);
+    final LocalTime timeCheckOut=LocalTime.of(17,30);
+
+
+    public List<Attendance> getbyuserID(String userID){
         return attendanceRepository.findByUserId(userID);
      }
     public List<Attendance> getall(){
@@ -54,7 +60,13 @@ public class AttendanceService {
         attendance.setCheckOutTime(null); // Không nên đặt checkOutTime ở đây
         attendance.setUserID(user.getUserID());
         attendance.setWorkDate(LocalDate.now());
-        attendance.setStatus(false); // Đặt trạng thái ban đầu
+        attendance.setStatus(false);// Đặt trạng thái ban đầu
+        if(attendance.getCheckInTime().isAfter(timeCheckIn)){
+            attendance.setLateTime(Duration.between(timeCheckIn,attendance.getCheckInTime()).toMinutes()/60.0);
+        }else {
+            attendance.setLateTime(0.0);
+        }
+
 
         attendanceRepository.save(attendance);
         return attendance;
@@ -65,7 +77,11 @@ public class AttendanceService {
 
         attendance.setCheckOutTime(LocalTime.now());
         attendance.setStatus(true);
-
+        if(attendance.getCheckOutTime().isAfter(timeCheckOut)){
+            attendance.setOverTime(Duration.between(timeCheckOut, attendance.getCheckOutTime()).toMinutes()/60.0);
+        }   else {
+        attendance.setOverTime(0.0);
+    }
         // Tính toán số giờ làm việc
         long totalMinutes = ChronoUnit.MINUTES.between(attendance.getCheckInTime(), attendance.getCheckOutTime());
         double hoursWorked = totalMinutes / 60.0; // Chia cho 60 để chuyển đổi sang giờ
@@ -90,16 +106,24 @@ public class AttendanceService {
         List<Attendance> attendances = attendanceRepository.findByUserIdAndMonthAndYear(id, years, month);
 
         BigDecimal totalHours = BigDecimal.ZERO; // Tổng giờ làm việc
-
+        Double sumTimeLate=0.0;
+        Double sumTimeOver=0.0;
+        int sumDay=0;
         // Duyệt qua các bản ghi để tính toán tổng giờ làm việc
         for (Attendance attendance : attendances) {
             totalHours = totalHours.add(attendance.getBigDecimal()); // Cộng dồn giờ làm
+            sumTimeLate=sumTimeLate+attendance.getLateTime();
+            sumTimeOver=sumTimeOver+attendance.getOverTime();
+            sumDay++;
         }
 
         attendanceSalary.setUserID(user.getUserID());
         attendanceSalary.setUserName(user.getUserName());
         attendanceSalary.setMonth(month);
         attendanceSalary.setYear(years);
+        attendanceSalary.setSumDay(sumDay);
+        attendanceSalary.setSumLateTime(sumTimeLate);
+
 
         // Tính lương
         BigDecimal salary = totalHours.multiply(BigDecimal.valueOf(valueSalary));

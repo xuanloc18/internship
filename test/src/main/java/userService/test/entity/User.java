@@ -24,7 +24,7 @@ public class User {
     String userMail;
     LocalDate dbo;
     String passWord;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     Set<Role> roles;
 
 }

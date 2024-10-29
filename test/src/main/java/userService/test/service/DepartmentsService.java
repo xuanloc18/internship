@@ -14,13 +14,14 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
-public class Departments_Service {
+public class DepartmentsService {
     @Autowired
     DepartmentsRepository departmentsRepository;
     @Autowired
     DepartmentsMapper departmentsMapper;
     @Autowired
     UserRespository userRepository;
+
     public Departments departmentsCreate(DepartmentsCreate departmentsCreate){
         if(departmentsRepository.findByDepartmentsname(departmentsCreate.getDepartments_name()).isPresent()){
             throw new RuntimeException("departments was created you can create");

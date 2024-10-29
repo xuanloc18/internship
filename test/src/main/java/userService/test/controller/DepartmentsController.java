@@ -6,7 +6,7 @@ import userService.test.dto.request.DepartmentsAddUser;
 import userService.test.dto.request.DepartmentsCreate;
 import userService.test.dto.response.APIResponse;
 import userService.test.entity.Departments;
-import userService.test.service.Departments_Service;
+import userService.test.service.DepartmentsService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/departments")
 public class DepartmentsController {
     @Autowired
-    Departments_Service departmentsService;
+    DepartmentsService departmentsService;
 
 
     @GetMapping

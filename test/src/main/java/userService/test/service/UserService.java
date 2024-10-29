@@ -6,6 +6,9 @@ import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import userService.test.dto.request.UserCreationRequest;
 import userService.test.dto.request.UserUpdateRequest;
+import userService.test.dto.response.PageRespone;
 import userService.test.dto.response.UserResponse;
 import userService.test.entity.Role;
 import userService.test.entity.User;
@@ -64,6 +68,19 @@ public class UserService {
         return userRespository.findAll().stream()
                 .map(userMapper::toUserResponse)
                 .toList();
+    }
+
+    public PageRespone<UserResponse> getUserss(int page,int size) {
+        Sort sort =Sort.by("userName").ascending();
+        Pageable pageable= PageRequest.of(page-1,size,sort);
+        var pageData=userRespository.findAll(pageable);
+        return PageRespone.<UserResponse>builder()
+                .currentPage(page)
+                .pageSize(pageData.getSize())
+                .totalPages(pageData.getTotalPages())
+                .totalElements(pageData.getTotalElements())
+                .data(pageData.getContent().stream().map(user -> userMapper.toUserResponse(user)).toList())
+                .build();
     }
 
     @PostAuthorize("returnObject.userName==authentication.name") // thực hiện xong mới so sánh điều kiện

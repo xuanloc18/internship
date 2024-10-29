@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import userService.test.dto.request.UserCreationRequest;
 import userService.test.dto.request.UserUpdateRequest;
 import userService.test.dto.response.APIResponse;
+import userService.test.dto.response.PageRespone;
 import userService.test.dto.response.UserResponse;
 import userService.test.service.UserService;
 
@@ -65,5 +66,13 @@ public class UserController {
     String deleteUser(@PathVariable("userID") String userID) {
         userService.del(userID);
         return "User had deleted";
+    }
+
+    @GetMapping("/getusers")
+    APIResponse<PageRespone<UserResponse>> getUserss(@RequestParam(value = "page",required = false,defaultValue = "1")int page, @RequestParam(value = "size",required = false,defaultValue = "10")int size) {
+
+        return APIResponse.<PageRespone<UserResponse>>builder()
+                .result(userService.getUserss(page,size))
+                .build();
     }
 }
